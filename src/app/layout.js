@@ -5,7 +5,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body dir={'rtl'} className={'font-iran'}>
 
-      {children}
+
+
+             {children}
+
+
       </body>
     </html>
   );
