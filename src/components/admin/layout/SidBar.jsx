@@ -1,6 +1,7 @@
 import logo from "../../../../public/logo.png";
 import {motion} from "motion/react";
 import React, {useState} from "react";
+import Link from "next/link";
 
 
 const SidBar = () => {
@@ -106,7 +107,9 @@ const SidBar = () => {
                             <path d="M17 22H19C21 22 22 21 22 19V17C22 15 21 14 19 14H17C15 14 14 15 14 17V19C14 21 15 22 17 22Z" stroke="#666666" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
                             <path d="M5 22H7C9 22 10 21 10 19V17C10 15 9 14 7 14H5C3 14 2 15 2 17V19C2 21 3 22 5 22Z" stroke="#666666" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
-                        <div className={' mr-3 text-[0.9rem] text-gray-600 hover:text-white  transition-all duration-500  hover:ps-7 hover:bg-[#7872ff]  hover:px-7 rounded-[12px] py-3'}>مدیریت دسته بندی</div>
+                        <Link href='/content/post-category'>
+                            <div className={' mr-3 text-[0.9rem] text-gray-600 hover:text-white  transition-all duration-500  hover:ps-7 hover:bg-[#7872ff]  hover:px-7 rounded-[12px] py-3'}>مدیریت دسته بندی</div>
+                        </Link>
                     </li>
                     <li className={'flex items-center     px-2 py-1 rounded-xl cursor-pointer  '}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -116,8 +119,10 @@ const SidBar = () => {
                             <path d="M18.6201 3.11011C18.9301 4.21011 19.7901 5.07011 20.8901 5.38011" stroke="#666666" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
                             <path d="M2.66992 18.9501L7.59992 15.6401C8.38992 15.1101 9.52992 15.1701 10.2399 15.7801L10.5699 16.0701C11.3499 16.7401 12.6099 16.7401 13.3899 16.0701L17.5499 12.5001C18.3299 11.8301 19.5899 11.8301 20.3699 12.5001L21.9999 13.9001" stroke="#666666" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
+                        <Link href={'/content/post'}>
+                            <div className={' mr-3 text-[0.9rem] text-gray-600 hover:text-white transition-all duration-500  hover:ps-7 hover:bg-[#7872ff]  hover:px-7 rounded-[12px] py-3'}>مدیریت پست ها</div>
+                        </Link>
 
-                        <div className={' mr-3 text-[0.9rem] text-gray-600 hover:text-white transition-all duration-500  hover:ps-7 hover:bg-[#7872ff]  hover:px-7 rounded-[12px] py-3'}>مدیریت پست ها</div>
                     </li>
                     <li className={'flex items-center     px-2 py-1 rounded-xl cursor-pointer  '}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

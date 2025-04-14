@@ -1,8 +1,7 @@
-import React from 'react';
+
 import SidBar from "@/components/admin/layout/SidBar";
 import Header from "@/components/admin/layout/Header";
-import {Bar} from "react-chartjs-2";
-import {data} from "@/app/admin/home/page";
+
 
 const Master = ({children}) => {
     return (
