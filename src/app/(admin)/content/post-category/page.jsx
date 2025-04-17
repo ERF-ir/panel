@@ -31,7 +31,7 @@ const page = () => {
 
 
     const handleDelete = async (id)=>{
-        setLoading(prevState =>({...prevState,id: true}));
+        setLoading(prevState =>({...prevState,[id]: true}));
         let response = await deleteCategory(id)
         console.log(response.data)
         if(response.status === 200){

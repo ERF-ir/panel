@@ -10,16 +10,18 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {addPost} from "@/services/requests/admin/post";
 import {toast, Toaster} from "react-hot-toast";
 import {config200, config400} from "@/services/toast/config";
+import {useRouter} from "next/navigation";
 
 
 const Page = () => {
+    const router = useRouter();
     let[PostCategory,setPostCategory]=useState([]);
     let[loading,setLoading]=useState(false);
     let [Preview,setPreview] = useState();
 
 
 
-    let {register,watch , handleSubmit
+    let {register,watch,reset , handleSubmit
         , formState: {errors}} = useForm({
         defaultValues:{
             status : '1',
@@ -41,6 +43,7 @@ const Page = () => {
     }, [image]);
 
    async function  onSubmit(data) {
+       console.log(data.image)
         setLoading(true);
 
         const formData = new FormData();
@@ -56,6 +59,7 @@ const Page = () => {
        {
            toast.success('پست با موفقیت ساخته شد',config200)
            setLoading(false)
+           reset()
        }
        else {
            setLoading(false)
