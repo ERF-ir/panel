@@ -18,4 +18,10 @@ export const postValidation = yup.object({
         })
 
 });
+export const publicDiscountValidation = yup.object({
+
+    title: yup.string().required("فیلد عنوان الزامی است"),
+    percentage: yup.string().required("مقدار تخفیف الزامی است"),
+
+});
 
