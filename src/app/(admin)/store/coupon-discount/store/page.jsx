@@ -11,7 +11,7 @@ import {config200, config400} from "@/services/toast/config";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {publicDiscountValidation} from "@/services/validations/validation";
+import {couponDiscountValidation, publicDiscountValidation} from "@/services/validations/validation";
 import DatePicker from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
@@ -64,14 +64,17 @@ const page = () => {
 
 
 
-    const {control,register,handleSubmit,formState:{errors}} = useForm({
+    const {control,watch,register,handleSubmit,formState:{errors}} = useForm({
         defaultValues:{
-            status : '1'
+            status : '1',
+            type:'0'
+
         },
         mode:'all',
-        resolver: yupResolver(publicDiscountValidation)
+        resolver: yupResolver(couponDiscountValidation)
 
     })
+    let typeSelect = watch('type')
 
     const  onSubmit  = async (data) => {
 
@@ -80,18 +83,7 @@ const page = () => {
         setLoading(true)
 
         console.log(data)
-        let res = await addpublicDiscount(data)
 
-        if (res.status === 200)
-        {
-            toast.success('تخفیف با موفقیت ایجاد شد',config200)
-            setLoading(false)
-        }
-        else {
-            console.log(res)
-            setLoading(false)
-            toast.error('اطلاعات غیر مجاز است',config400)
-        }
     }
 
     return (
@@ -107,7 +99,7 @@ const page = () => {
                                     <path d="M8.49935 17.6901C7.88935 17.6901 7.32935 17.4701 6.91935 17.0701C6.42935 16.5801 6.21935 15.8701 6.32935 15.1201L6.75935 12.1101C6.83935 11.5301 7.21935 10.7801 7.62935 10.3701L15.5093 2.49006C17.4993 0.500059 19.5193 0.500059 21.5093 2.49006C22.5993 3.58006 23.0893 4.69006 22.9893 5.80006C22.8993 6.70006 22.4193 7.58006 21.5093 8.48006L13.6293 16.3601C13.2193 16.7701 12.4693 17.1501 11.8893 17.2301L8.87935 17.6601C8.74935 17.6901 8.61935 17.6901 8.49935 17.6901ZM16.5693 3.55006L8.68935 11.4301C8.49935 11.6201 8.27935 12.0601 8.23935 12.3201L7.80935 15.3301C7.76935 15.6201 7.82935 15.8601 7.97935 16.0101C8.12935 16.1601 8.36935 16.2201 8.65935 16.1801L11.6693 15.7501C11.9293 15.7101 12.3793 15.4901 12.5593 15.3001L20.4393 7.42006C21.0893 6.77006 21.4293 6.19006 21.4793 5.65006C21.5393 5.00006 21.1993 4.31006 20.4393 3.54006C18.8393 1.94006 17.7393 2.39006 16.5693 3.55006Z" fill="#666666"/>
                                     <path d="M19.8496 9.82978C19.7796 9.82978 19.7096 9.81978 19.6496 9.79978C17.0196 9.05978 14.9296 6.96978 14.1896 4.33978C14.0796 3.93978 14.3096 3.52978 14.7096 3.40978C15.1096 3.29978 15.5196 3.52978 15.6296 3.92978C16.2296 6.05978 17.9196 7.74978 20.0496 8.34978C20.4496 8.45978 20.6796 8.87978 20.5696 9.27978C20.4796 9.61978 20.1796 9.82978 19.8496 9.82978Z" fill="#666666"/>
                                 </svg>
-                                <h1 className={'text-gray-600 text-[1.1rem] ms-2 '}>افزودن تخفیف عمومی</h1>
+                                <h1 className={'text-gray-600 text-[1.1rem] ms-2 '}>افزودن کد تخفیف</h1>
                             </div>
                             <div className={'flex mt-4 items-center text-[0.7rem] text-gray-400'}>
                                 <span className={'p-1 rounded-md bg-indigo-100 text-indigo-400 '}>داشبورد</span>
@@ -147,7 +139,7 @@ const page = () => {
 
 
                 <div className={'flex justify-center mt-3 pb-16'}>
-                    <div className=" py-10 px-14 mt-5 w-[85%]   bg-white shadow-[0_0_10px_#ebebeb] rounded-xl">
+                    <div className=" py-10 pr-20 mt-5 w-[80%]   bg-white shadow-[0_0_10px_#ebebeb] rounded-xl">
 
                         <form onSubmit={handleSubmit(onSubmit)} className={'flex-wrap  flex items-center justify-between'}>
 
@@ -169,9 +161,27 @@ const page = () => {
                                     )}
                                 </p>
                             </div>
+                            <div className={'w-[50%]  '}>
+                                <label className={'text-gray-500 block'}>کد تخفیف :</label>
+                                <input {...register("coupon_code")} type='text'  placeholder='sample' className={'p-3.5 mt-3 w-[75%] ' +
+                                    ' shadow-[0_0_2px_#c9c9c9] focus:ring-2 ring-indigo-300  transition-all  text-sm text-gray-500 placeholder:text-sm placeholder:text-gray-300 border border-gray-300 rounded-lg'} />
+                                <p className={' p-2   rounded-full  flex items-center'}>
 
-                            <div>
-                                <label className={'text-gray-500'}>درصد تخیف :</label>
+                                    {errors.coupon_code && (
+                                        <>
+                                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12 22.75C6.07 22.75 1.25 17.93 1.25 12C1.25 6.07 6.07 1.25 12 1.25C17.93 1.25 22.75 6.07 22.75 12C22.75 17.93 17.93 22.75 12 22.75ZM12 2.75C6.9 2.75 2.75 6.9 2.75 12C2.75 17.1 6.9 21.25 12 21.25C17.1 21.25 21.25 17.1 21.25 12C21.25 6.9 17.1 2.75 12 2.75Z" fill="#ff6467"/>
+                                                <path d="M12 13.75C11.59 13.75 11.25 13.41 11.25 13V8C11.25 7.59 11.59 7.25 12 7.25C12.41 7.25 12.75 7.59 12.75 8V13C12.75 13.41 12.41 13.75 12 13.75Z" fill="#ff6467"/>
+                                                <path d="M12 16.9999C11.87 16.9999 11.74 16.9699 11.62 16.9199C11.5 16.8699 11.39 16.7999 11.29 16.7099C11.2 16.6099 11.13 16.5099 11.08 16.3799C11.03 16.2599 11 16.1299 11 15.9999C11 15.8699 11.03 15.7399 11.08 15.6199C11.13 15.4999 11.2 15.3899 11.29 15.2899C11.39 15.1999 11.5 15.1299 11.62 15.0799C11.86 14.9799 12.14 14.9799 12.38 15.0799C12.5 15.1299 12.61 15.1999 12.71 15.2899C12.8 15.3899 12.87 15.4999 12.92 15.6199C12.97 15.7399 13 15.8699 13 15.9999C13 16.1299 12.97 16.2599 12.92 16.3799C12.87 16.5099 12.8 16.6099 12.71 16.7099C12.61 16.7999 12.5 16.8699 12.38 16.9199C12.26 16.9699 12.13 16.9999 12 16.9999Z" fill="#ff6467"/>
+                                            </svg>
+                                            <span className={'text-sm ms-2  bg-red-100 rounded-md py-2 px-3  text-red-400 '}>{errors.coupon_code.message}</span>
+                                        </>
+                                    )}
+                                </p>
+                            </div>
+
+                            <div className={'mt-10'}>
+                                <label className={'text-gray-500'}>درصد تخفیف :</label>
                                 <div className="select mt-3" >
                                     <select {...register("percentage")}>
                                        <option value={''}>انتخاب کنید</option>
@@ -191,6 +201,54 @@ const page = () => {
                                     )}
                                 </p>
                             </div>
+                            <div className={'ml-28 mt-10'}>
+                                <label className={'text-gray-500'}>نوع تخفیف :</label>
+                                <div className="select mt-3" >
+                                    <select {...register("type")}>
+                                       <option value={''}>انتخاب کنید</option>
+                                       <option value={'0'}>عمومی</option>
+                                       <option value={'1'}>خصوصی</option>
+
+                                    </select>
+                                </div>
+                                <p className={' p-2   rounded-full  flex items-center'}>
+                                    {errors.type && (
+                                        <>
+                                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12 22.75C6.07 22.75 1.25 17.93 1.25 12C1.25 6.07 6.07 1.25 12 1.25C17.93 1.25 22.75 6.07 22.75 12C22.75 17.93 17.93 22.75 12 22.75ZM12 2.75C6.9 2.75 2.75 6.9 2.75 12C2.75 17.1 6.9 21.25 12 21.25C17.1 21.25 21.25 17.1 21.25 12C21.25 6.9 17.1 2.75 12 2.75Z" fill="#ff6467"/>
+                                                <path d="M12 13.75C11.59 13.75 11.25 13.41 11.25 13V8C11.25 7.59 11.59 7.25 12 7.25C12.41 7.25 12.75 7.59 12.75 8V13C12.75 13.41 12.41 13.75 12 13.75Z" fill="#ff6467"/>
+                                                <path d="M12 16.9999C11.87 16.9999 11.74 16.9699 11.62 16.9199C11.5 16.8699 11.39 16.7999 11.29 16.7099C11.2 16.6099 11.13 16.5099 11.08 16.3799C11.03 16.2599 11 16.1299 11 15.9999C11 15.8699 11.03 15.7399 11.08 15.6199C11.13 15.4999 11.2 15.3899 11.29 15.2899C11.39 15.1999 11.5 15.1299 11.62 15.0799C11.86 14.9799 12.14 14.9799 12.38 15.0799C12.5 15.1299 12.61 15.1999 12.71 15.2899C12.8 15.3899 12.87 15.4999 12.92 15.6199C12.97 15.7399 13 15.8699 13 15.9999C13 16.1299 12.97 16.2599 12.92 16.3799C12.87 16.5099 12.8 16.6099 12.71 16.7099C12.61 16.7999 12.5 16.8699 12.38 16.9199C12.26 16.9699 12.13 16.9999 12 16.9999Z" fill="#ff6467"/>
+                                            </svg>
+                                            <span className={'text-sm ms-2  bg-red-100 rounded-md py-2 px-3  text-red-400 '}>{errors.type.message}</span>
+                                        </>
+                                    )}
+                                </p>
+                            </div>
+
+                            <div className={'ml-28 mt-10'} hidden={!Number(typeSelect)}>
+                                <label className={'text-gray-500'}>انتخاب کاربر :</label>
+                                <div className="select mt-3" >
+                                    <select {...register("user_id")}>
+                                       <option value={''}>انتخاب کنید</option>
+                                       <option value={'0'}>عمومی</option>
+                                       <option value={'1'}>خصوصی</option>
+
+                                    </select>
+                                </div>
+                                <p className={' p-2   rounded-full  flex items-center'}>
+                                    {errors.user_id && (
+                                        <>
+                                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12 22.75C6.07 22.75 1.25 17.93 1.25 12C1.25 6.07 6.07 1.25 12 1.25C17.93 1.25 22.75 6.07 22.75 12C22.75 17.93 17.93 22.75 12 22.75ZM12 2.75C6.9 2.75 2.75 6.9 2.75 12C2.75 17.1 6.9 21.25 12 21.25C17.1 21.25 21.25 17.1 21.25 12C21.25 6.9 17.1 2.75 12 2.75Z" fill="#ff6467"/>
+                                                <path d="M12 13.75C11.59 13.75 11.25 13.41 11.25 13V8C11.25 7.59 11.59 7.25 12 7.25C12.41 7.25 12.75 7.59 12.75 8V13C12.75 13.41 12.41 13.75 12 13.75Z" fill="#ff6467"/>
+                                                <path d="M12 16.9999C11.87 16.9999 11.74 16.9699 11.62 16.9199C11.5 16.8699 11.39 16.7999 11.29 16.7099C11.2 16.6099 11.13 16.5099 11.08 16.3799C11.03 16.2599 11 16.1299 11 15.9999C11 15.8699 11.03 15.7399 11.08 15.6199C11.13 15.4999 11.2 15.3899 11.29 15.2899C11.39 15.1999 11.5 15.1299 11.62 15.0799C11.86 14.9799 12.14 14.9799 12.38 15.0799C12.5 15.1299 12.61 15.1999 12.71 15.2899C12.8 15.3899 12.87 15.4999 12.92 15.6199C12.97 15.7399 13 15.8699 13 15.9999C13 16.1299 12.97 16.2599 12.92 16.3799C12.87 16.5099 12.8 16.6099 12.71 16.7099C12.61 16.7999 12.5 16.8699 12.38 16.9199C12.26 16.9699 12.13 16.9999 12 16.9999Z" fill="#ff6467"/>
+                                            </svg>
+                                            <span className={'text-sm ms-2  bg-red-100 rounded-md py-2 px-3  text-red-400 '}>{errors.type.message}</span>
+                                        </>
+                                    )}
+                                </p>
+                            </div>
+
 
                             <div dir='rtl' className={' mt-5'}>
                                 <Controller
@@ -234,7 +292,7 @@ const page = () => {
                             </div>
 
 
-                            <div className={' me-16 mt-5 '}>
+                            <div className={' me-36 mt-5 '}>
                                 <Controller
                                     control={control}
                                     name="end_at"

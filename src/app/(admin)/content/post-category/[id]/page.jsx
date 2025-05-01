@@ -4,7 +4,7 @@ import EditForm from "@/app/(admin)/content/post-category/[id]/EditForm";
 
 const Page = async ({params})  =>  {
 
-    //console.log(await params)
+
     return (
 
 
