@@ -23,6 +23,7 @@ const Page = () => {
 
     let {register,watch,reset , handleSubmit
         , formState: {errors}} = useForm({
+
         defaultValues:{
             status : '1',
             user_id : '1'
@@ -34,6 +35,7 @@ const Page = () => {
     const image = watch("image");
 
     useEffect(() => {
+
         if (image && image.length > 0) {
             const file = image[0];
             const previewUrl = URL.createObjectURL(file);
