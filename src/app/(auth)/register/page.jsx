@@ -48,11 +48,11 @@ const Page = () => {
         let response   = await registerRequest(formData)
         if (response.status === 200) {
             setLoading(false)
-            reset()
+
+
             toast.success('ثبت نام با موفقیت ساخته شد',config200)
         } else {
             setLoading(false)
-            reset()
             toast.error(response,config400)
         }
     }

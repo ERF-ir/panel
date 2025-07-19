@@ -10,6 +10,7 @@ import {loginValidation} from "@/services/validations/validation";
 import {loginRequest} from "@/services/requests/auth/register";
 import {config200, config400} from "@/services/toast/config";
 import {BeatLoader} from "react-spinners";
+import { useRouter } from 'next/navigation'
 
 
 const Page = () => {
@@ -21,6 +22,7 @@ const Page = () => {
             mode:'all'
         }
     )
+    const router = useRouter()
 
     let [loading, setLoading] = useState(false)
 
@@ -35,8 +37,12 @@ const Page = () => {
         if (response.status === 200) {
             setLoading(false)
 
+            let token = response.data.data.token
+            document.cookie = `token=${token}; path=/; max-age=3600`
             reset()
-            toast.success('با موفقیت وارد شدید',config200)
+            router.push('/home')
+
+
         } else {
             setLoading(false)
 

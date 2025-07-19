@@ -15,3 +15,12 @@ export  async function loginRequest (data) {
 
  }).catch(error =>  error.response.data.data)
 }
+
+export  async function getMe (token) {
+
+ return  await axiosRequest.get('auth/get-me',{
+
+  headers: {'Authorization': `Bearer ${token}`},
+
+ }).catch(error =>  error.response.data.data)
+}

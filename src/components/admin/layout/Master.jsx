@@ -1,9 +1,12 @@
 
 import SidBar from "@/components/admin/layout/SidBar";
 import Header from "@/components/admin/layout/Header";
+import {useRouter} from "next/navigation";
+import {useEffect} from "react";
 
 
 const Master = ({children}) => {
+
     return (
 
 

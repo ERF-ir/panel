@@ -1,11 +1,47 @@
+'use client'
 import profile from "../../../../public/f.png";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
+import {axiosRequest} from "@/services/axios/config";
+import {getMe} from "@/services/requests/auth/register";
+import {toast, Toaster} from "react-hot-toast";
+import {config200} from "@/services/toast/config";
+
 
 
 function Header() {
+
+      let [user, setUser] = useState()
+
     let dateTime = new Intl.DateTimeFormat('fa-IR',
         {year: 'numeric',month: 'short',day: 'numeric'}).format( new Date())
+
     let newText = dateTime.replace(/ /g, " / ");
+
+
+    function getCookie() {
+        let cookies = document.cookie.split(';')
+        let r = cookies.find((c)=>{
+            return c.includes('token')
+        })
+        return  r.split('=')[1]
+    }
+
+    const getUser = async () => {
+            let token =  getCookie()
+         let response = await getMe(token);
+         setUser(response.data.data)
+
+    }
+
+            useEffect(()=>{
+
+                getUser()
+                toast.success('با موفقیت وارد شدید',config200)
+
+            },[])
+
+
     return (
         <>
             <header className={'p-5 flex items-center justify-between'}>
@@ -14,13 +50,15 @@ function Header() {
 
                     <div className={'flex items-center'}>
                         <div className={' w-[56px] p-1 rounded-full  bg-green-500  '}>
-                            <img src={profile.src} className={' rounded-full size-12 '} alt={'profile'}/>
+                            <img src={user && user.image} className={' rounded-full size-12 '} alt={'profile'}/>
                         </div>
                         <div className={'ms-4'}>
-                            <h1 className={'text-gray-600 text-sm'}> سلام عرفان بیات</h1>
+                            <h1 className={'text-gray-600 text-sm'}> سلام {user && user.name}</h1>
                             <p className={' mt-3 text-[0.8rem]'}>
                                 <span className={'p-1 rounded-full px-2 bg-orange-100 text-orange-700'}>مدیر اصلی</span>
-                                <span className={'ms-3 p-1 text-gray-700 bg-gray-100 text-[0.75rem] px-2 rounded-full'}>{newText}</span>
+                                <span className={'ms-3 p-1 text-gray-700 bg-gray-100 text-[0.8rem] px-2 rounded-full'}>{newText}</span>
+                                <span className={'p-1.5 rounded-lg px-3 mr-4 border ' +
+                                    'border-red-400 hover:bg-red-400 cursor-pointer text-red-400 transition-all hover:text-white'}>خروج</span>
                             </p>
 
                         </div>
@@ -54,19 +92,9 @@ function Header() {
                     </div>
 
                 </section>
-
-
-
-
-
-
-
-
-
-
-
-
             </header>
+            <Toaster/>
+
         </>
     );
 }
