@@ -24,3 +24,12 @@ export  async function getMe (token) {
 
  }).catch(error =>  error.response.data.data)
 }
+
+export  async function logout (token) {
+
+ return  await axiosRequest.get('auth/logout',{
+
+  headers: {'Authorization': `Bearer ${token}`},
+
+ }).catch(error =>  error.response.data.data)
+}

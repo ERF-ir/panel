@@ -30,18 +30,15 @@ const Page = () => {
     const onSubmit = async  (data)=>{
         setLoading(true)
 
-
-
         let response = await loginRequest(data)
 
         if (response.status === 200) {
-            setLoading(false)
 
             let token = response.data.data.token
             document.cookie = `token=${token}; path=/; max-age=3600`
             reset()
             router.push('/home')
-
+            setLoading(false)
 
         } else {
             setLoading(false)

@@ -1,17 +1,22 @@
 'use client'
 import profile from "../../../../public/f.png";
 import React, {useEffect, useState} from "react";
-import {useRouter} from "next/navigation";
+
 import {axiosRequest} from "@/services/axios/config";
-import {getMe} from "@/services/requests/auth/register";
+import {getMe, logout} from "@/services/requests/auth/register";
 import {toast, Toaster} from "react-hot-toast";
-import {config200} from "@/services/toast/config";
+import {config200, config400} from "@/services/toast/config";
+import { useRouter } from 'next/navigation'
 
 
 
 function Header() {
 
+
+
       let [user, setUser] = useState()
+
+    const router = useRouter();
 
     let dateTime = new Intl.DateTimeFormat('fa-IR',
         {year: 'numeric',month: 'short',day: 'numeric'}).format( new Date())
@@ -41,6 +46,28 @@ function Header() {
 
             },[])
 
+    const handleDelete = async () => {
+
+        let token =  getCookie()
+
+        let response = await logout(token);
+
+
+        if (response.status === 200) {
+            document.cookie = 'token=; path=/; max-age=0'
+            router.push('/login')
+            toast.success('از سسیستم خارج شدید',config200)
+
+
+
+
+        } else {
+
+            toast.error(response,config400)
+        }
+
+    }
+
 
     return (
         <>
@@ -57,7 +84,7 @@ function Header() {
                             <p className={' mt-3 text-[0.8rem]'}>
                                 <span className={'p-1 rounded-full px-2 bg-orange-100 text-orange-700'}>مدیر اصلی</span>
                                 <span className={'ms-3 p-1 text-gray-700 bg-gray-100 text-[0.8rem] px-2 rounded-full'}>{newText}</span>
-                                <span className={'p-1.5 rounded-lg px-3 mr-4 border ' +
+                                <span onClick={handleDelete} className={'p-1.5 rounded-lg px-3 mr-4 border ' +
                                     'border-red-400 hover:bg-red-400 cursor-pointer text-red-400 transition-all hover:text-white'}>خروج</span>
                             </p>
 
