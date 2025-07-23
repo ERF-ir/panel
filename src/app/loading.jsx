@@ -1,8 +1,14 @@
+import {MoonLoader} from "react-spinners";
 
 const Loading = () => {
     return (
-        <div>
-                    <h1 className={'h-96 w-96 inset-0 bg-red-500 text-white absolute'}>Loading...</h1>
+        <div className="h-screen flex items-center justify-center ">
+            <MoonLoader
+                color="#00bdff"
+                cssOverride={{}}
+                size={50}
+                speedMultiplier={1}
+            />
         </div>
     );
 };

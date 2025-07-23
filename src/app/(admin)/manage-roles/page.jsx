@@ -5,6 +5,7 @@ import {BeatLoader} from "react-spinners";
 import {Toaster} from "react-hot-toast";
 import React, {useEffect, useState, useTransition} from "react";
 import {listRoles} from "@/services/requests/roles/role";
+import {useRouter} from "next/navigation";
 
 
 const Page = () => {
@@ -12,9 +13,7 @@ const Page = () => {
     let [isPending, startTransition] = useTransition();
 
     let [roles, setRoles] = useState([]);
-    let [permissionn, setPermission] = useState([]);
-
-
+    const router = useRouter();
 
     const fetchRoles = async ()=>{
 
@@ -82,7 +81,7 @@ const Page = () => {
 
             <div className=" py-10 px-14 mt-5   bg-white shadow-[0_0_10px_#ebebeb] rounded-xl">
 
-                <button  disabled={isPending} onClick={()=>startTransition(()=>router.push('/content/post-category/store'))} className={'py-2.5  mb-5 space-x-2 flex ' +
+                <button  disabled={isPending} onClick={()=>startTransition(()=>router.push('/manage-roles/store'))} className={'py-2.5  mb-5 space-x-2 flex ' +
                     ' items-center border hover:bg-purple-100  border-purple-600  px-3  active:bg-purple-300   rounded-lg   text-purple-600 transition-all  '}>
                     {isPending ? <BeatLoader size={8}  speedMultiplier={0.7} color={'#837cf3'} /> : (
                         <>
@@ -123,7 +122,7 @@ const Page = () => {
                                        <div className={'*:text-emerald-600 *:text-sm *:my-2'} key={permission.id}>
                                            <p> { permission.name ? permission.name : 'نقشی وجود ندرد' }</p>
                                        </div>
-                                   )) : <p className={'text-amber-600 text-sm '}>دسترسی وجود ندارد</p>
+                                   )) : <p className={'text-amber-600 text-sm '}>دسترسی برای این نقش وجود ندارد</p>
                                 }
                             </td>
                             <td>
