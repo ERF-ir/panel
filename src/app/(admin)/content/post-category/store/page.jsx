@@ -10,6 +10,7 @@ import {BeatLoader} from "react-spinners";
 import {config200, config400} from "@/services/toast/config";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
+import {getCookie} from "@/helpers";
 
 
 
@@ -25,7 +26,7 @@ const page = () => {
     useEffect(() => {
         async function getCatParent() {
 
-            let res2 = await parentCategory();
+            let res2 = await parentCategory(getCookie());
             let data = res2.data.data;
 
             setParentCat(data);
@@ -50,7 +51,7 @@ const page = () => {
 
     const   onSubmit  = async (data) => {
         setLoading(true)
-        let res  = await   addPostCateegory(data)
+        let res  = await   addPostCateegory(data,getCookie())
         if (res.status === 200)
         {
             toast.success('دسته بندی با موفقیت ساخته شد',config200)

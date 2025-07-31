@@ -37,12 +37,12 @@ const Page = () => {
             let token = response.data.data.token
             document.cookie = `token=${token}; path=/; max-age=3600`
             reset()
+            toast.success('با موفقیت وارد شدید',config200)
             router.push('/home')
             setLoading(false)
 
         } else {
             setLoading(false)
-
             reset()
             toast.error(response,config400)
         }

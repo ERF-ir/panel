@@ -24,6 +24,7 @@ import opacity from "react-element-popper/animations/opacity"
 import {addpublicDiscount} from "@/services/requests/shop/publicDiscount";
 import {log} from "next/dist/server/typescript/utils";
 import jalaali from "jalaali-js";
+import {getCookie} from "@/helpers";
 
 
 
@@ -80,7 +81,7 @@ const page = () => {
         setLoading(true)
 
         console.log(data)
-        let res = await addpublicDiscount(data)
+        let res = await addpublicDiscount(data,getCookie())
 
         if (res.status === 200)
         {

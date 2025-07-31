@@ -24,6 +24,9 @@ import opacity from "react-element-popper/animations/opacity"
 import {addpublicDiscount} from "@/services/requests/shop/publicDiscount";
 import {log} from "next/dist/server/typescript/utils";
 import jalaali from "jalaali-js";
+import {addCouponDiscount} from "@/services/requests/shop/couponDiscount";
+import {getCookie} from "@/helpers";
+
 
 
 
@@ -81,8 +84,19 @@ const page = () => {
         data.end_at = convertJalaliDateTimeToGregorianString(convertPersianNumbersToEnglish(data.end_at))
         data.start_at = convertJalaliDateTimeToGregorianString(convertPersianNumbersToEnglish(data.start_at))
         setLoading(true)
+        
+        let response = await addCouponDiscount(data,getCookie())
 
-        console.log(data)
+        if (response.status === 200)
+        {
+            toast.success('کد تخفیف با موفقیت ساخته شد',config200)
+            setLoading(false)
+
+        }
+        else {
+            setLoading(false)
+            toast.error('اطلاعات غیر مجاز است',config400)
+        }
 
     }
 

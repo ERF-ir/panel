@@ -15,6 +15,7 @@ import {
     DialogTitle,
     DialogTrigger
 } from "@/components/ui/dialog";
+import {getCookie} from "@/helpers";
 
 
 
@@ -26,32 +27,33 @@ const page = () => {
     let [loading, setLoading] = useState([]);
     const router = useRouter();
 
-    let fetchPosts = async ()=>{
-        let responce = await listPost();
+    let fetchPosts = async (token)=>{
+        let responce = await listPost(token);
         setPosts(responce.data.data);
     }
 
 
 
     useEffect(() => {
-        fetchPosts()
+        let token = getCookie();
+        fetchPosts(token)
     }, []);
 
 
     let handleDelete = async  (id) =>{
 
         setLoading(prevState =>({...prevState,[id]: true}));
-        let response = await deletePost(id)
+        let response = await deletePost(id,getCookie())
         console.log(response.data)
         if(response.status === 200){
             setLoading(false);
             toast.success('پست با موفقیت حذف شد',config200)
             setLoading(prevState =>({...prevState,id: false}));
         }
-        fetchPosts()
+        fetchPosts(getCookie())
     }
     let changeStatus = async (id)=>{
-        let responce =  toggleStatus(id)
+        let responce =  toggleStatus(id,getCookie())
         toast.promise(responce,
             {
                 loading: <b>...</b>,

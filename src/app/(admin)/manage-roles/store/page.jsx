@@ -9,8 +9,12 @@ import './style.css'
 import {axiosRequest} from "@/services/axios/config";
 import {addRole, permissions} from "@/services/requests/roles/role";
 import {config200} from "@/services/toast/config";
+import {useRouter} from "next/navigation";
+import {getCookie} from "@/helpers";
 
 const Page = () => {
+    const router = useRouter();
+
 
     let {handleSubmit,register
         ,formState:{errors}} = useForm()
@@ -21,7 +25,7 @@ const Page = () => {
 
     const fetchPermissions = async () => {
 
-        let response = await permissions()
+        let response = await permissions(getCookie())
 
        setPermissions(response.data.data)
 
@@ -37,7 +41,7 @@ const Page = () => {
     const onSubmit = async (data) => {
 
         setLoading(true)
-      let  response = await addRole(data)
+      let  response = await addRole(data,getCookie())
         if(response.status === 200){
             setLoading(false);
             toast.success('نقش جدید ساخته شد',config200)

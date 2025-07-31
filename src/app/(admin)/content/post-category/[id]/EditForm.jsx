@@ -14,6 +14,7 @@ import {
     showPostCategory
 } from "@/services/requests/admin/postCateegory";
 import {config200} from "@/services/toast/config";
+import {getCookie} from "@/helpers";
 
 const EditForm = ({id}) => {
     const router = useRouter();
@@ -37,7 +38,7 @@ const EditForm = ({id}) => {
 
     const getPostCateegory = async () => {
         let idd = await id
-       let response = await showPostCategory(idd.id)
+       let response = await showPostCategory(idd.id,getCookie())
        setPostCat(response.data.data);
         reset(
             {
@@ -49,7 +50,7 @@ const EditForm = ({id}) => {
     }
     const getParent = async () => {
 
-       let response = await parentCategory()
+       let response = await parentCategory(getCookie())
         setListParent(response.data.data);
 
     }
@@ -57,7 +58,7 @@ const EditForm = ({id}) => {
     const onSubmit = async (data) => {
         setLoading(true)
         let idd = await id
-        let  response = await editPostCategory(idd.id,data);
+        let  response = await editPostCategory(idd.id,data,getCookie());
         if (response.status === 200)
         {
             toast.success('دسته بندی ویرایش شد',config200)

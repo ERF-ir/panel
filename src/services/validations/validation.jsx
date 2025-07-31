@@ -10,8 +10,8 @@ export const postValidation = yup.object({
     image: yup.mixed()
         .test('image','انتخاب تصویر الزامی است',(value) => {
             return value.length > 0
-        }).test('image','حجم تصویر نباید بیشتر از ۱ مگابایت باشد',(value) => {
-            return  value.length > 0 && value[0].size / 1024 <= 1024;
+        }).test('image','حجم تصویر نباید بیشتر از ۲ مگابایت باشد',(value) => {
+            return  value.length > 0 && value[0].size / 1024 <= 2048;
         })
         .test('image','فرمت تصویر باید jpg یا png باشد',(value) => {
             let formats = ['image/png', 'image/jpeg'];

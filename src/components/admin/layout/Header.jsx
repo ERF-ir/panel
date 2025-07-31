@@ -7,7 +7,7 @@ import {getMe, logout} from "@/services/requests/auth/register";
 import {toast, Toaster} from "react-hot-toast";
 import {config200, config400} from "@/services/toast/config";
 import { useRouter } from 'next/navigation'
-
+import {getCookie} from "@/helpers";
 
 
 function Header() {
@@ -42,7 +42,7 @@ function Header() {
             useEffect(()=>{
 
                 getUser()
-                toast.success('با موفقیت وارد شدید',config200)
+
 
             },[])
 
@@ -51,15 +51,10 @@ function Header() {
         let token =  getCookie()
 
         let response = await logout(token);
-
-
         if (response.status === 200) {
             document.cookie = 'token=; path=/; max-age=0'
             router.push('/login')
             toast.success('از سسیستم خارج شدید',config200)
-
-
-
 
         } else {
 
@@ -82,7 +77,7 @@ function Header() {
                         <div className={'ms-4'}>
                             <h1 className={'text-gray-600 text-sm'}> سلام {user && user.name}</h1>
                             <p className={' mt-3 text-[0.8rem]'}>
-                                <span className={'p-1 rounded-full px-2 bg-orange-100 text-orange-700'}>مدیر اصلی</span>
+                                <span className={'p-1 rounded-full px-2 bg-orange-100 text-orange-700'}>{user && user.roles}</span>
                                 <span className={'ms-3 p-1 text-gray-700 bg-gray-100 text-[0.8rem] px-2 rounded-full'}>{newText}</span>
                                 <span onClick={handleDelete} className={'p-1.5 rounded-lg px-3 mr-4 border ' +
                                     'border-red-400 hover:bg-red-400 cursor-pointer text-red-400 transition-all hover:text-white'}>خروج</span>

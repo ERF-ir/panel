@@ -7,6 +7,7 @@ import {BeatLoader} from "react-spinners";
 import {deleteCategory, getCategory, toggleStatus} from "@/services/requests/admin/postCateegory";
 import {toast, Toaster} from "react-hot-toast";
 import {config200, config400} from "@/services/toast/config";
+import {getCookie} from "@/helpers";
 
 
 
@@ -21,18 +22,19 @@ const page = () => {
 
 
     useEffect(()=>{
-        fetchCategories()
+        let token = getCookie()
+        fetchCategories(token)
     },[])
 
-    const fetchCategories = async () => {
-        let response = await getCategory()
+    const fetchCategories = async (token) => {
+        let response = await getCategory(token)
         setCategories(response.data.data);
     }
 
 
     const handleDelete = async (id)=>{
         setLoading(prevState =>({...prevState,[id]: true}));
-        let response = await deleteCategory(id)
+        let response = await deleteCategory(id,getCookie())
         console.log(response.data)
         if(response.status === 200){
             setLoading(false);
@@ -45,11 +47,7 @@ const page = () => {
 
     const changeStatus = async (id)=>{
 
-        let response =  toggleStatus(id);
-
-
-
-        console.log(response)
+        let response =  toggleStatus(id,getCookie());
 
              toast.promise(response,
                 {

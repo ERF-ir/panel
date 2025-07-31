@@ -8,6 +8,7 @@ import {deleteCategory, getCategory, toggleStatus} from "@/services/requests/adm
 import {toast, Toaster} from "react-hot-toast";
 import {config200, config400} from "@/services/toast/config";
 import {ListpublicDiscounts, publicDiscounts} from "@/services/requests/shop/publicDiscount";
+import {getCookie} from "@/helpers";
 
 
 
@@ -32,7 +33,7 @@ const page = () => {
     },[])
 
     const fetchPublicDiscounts = async () => {
-        let response = await ListpublicDiscounts()
+        let response = await ListpublicDiscounts(getCookie())
         setPublicDiscounts(response.data.data)
     }
 
@@ -83,7 +84,7 @@ const page = () => {
                         <path d="M7 22.75H5C2.58 22.75 1.25 21.42 1.25 19V17C1.25 14.58 2.58 13.25 5 13.25H7C9.42 13.25 10.75 14.58 10.75 17V19C10.75 21.42 9.42 22.75 7 22.75ZM5 14.75C3.42 14.75 2.75 15.42 2.75 17V19C2.75 20.58 3.42 21.25 5 21.25H7C8.58 21.25 9.25 20.58 9.25 19V17C9.25 15.42 8.58 14.75 7 14.75H5Z" fill="#666666"/>
                     </svg>
 
-                    <h1 className={'text-gray-600 text-[1.1rem] ms-2 '}>لیست دسته بندی های سایت</h1>
+                    <h1 className={'text-gray-600 text-[1.1rem] ms-2 '}>لیست تخفیف های عمومی سایت</h1>
                 </div>
                 <div className={'flex mt-4 items-center text-[0.7rem] text-gray-400'}>
                     <span className={'p-1 rounded-md bg-indigo-100 text-indigo-400 '}>داشبورد</span>
@@ -120,11 +121,11 @@ const page = () => {
 
         <div className=" py-10 px-14 mt-5   bg-white shadow-[0_0_10px_#ebebeb] rounded-xl">
 
-            <button  disabled={isPending} onClick={()=>startTransition(()=>router.push('/content/post-category/store'))} className={'py-2.5  mb-5 space-x-2 flex ' +
+            <button  disabled={isPending} onClick={()=>startTransition(()=>router.push('/store/public-discount/store'))} className={'py-2.5  mb-5 space-x-2 flex ' +
                 ' items-center border hover:bg-purple-100  border-purple-600  px-3  active:bg-purple-300   rounded-lg   text-purple-600 transition-all  '}>
                 {isPending ? <BeatLoader size={8}  speedMultiplier={0.7} color={'#837cf3'} /> : (
                     <>
-                        <span className={'text-sm'}>دسته بندی جدید</span>
+                        <span className={'text-sm'}>دتخفیف عمومی جدید</span>
                     </>
                 ) }
             </button>

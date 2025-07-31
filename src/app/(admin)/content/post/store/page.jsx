@@ -11,6 +11,9 @@ import {addPost} from "@/services/requests/admin/post";
 import {toast, Toaster} from "react-hot-toast";
 import {config200, config400} from "@/services/toast/config";
 import {useRouter} from "next/navigation";
+import {getCookie} from "@/helpers";
+import {log} from "next/dist/server/typescript/utils";
+import {getMe} from "@/services/requests/auth/register";
 
 
 const Page = () => {
@@ -18,6 +21,7 @@ const Page = () => {
     let[PostCategory,setPostCategory]=useState([]);
     let[loading,setLoading]=useState(false);
     let [Preview,setPreview] = useState();
+    let [user, setUser] = useState([])
 
 
 
@@ -25,8 +29,7 @@ const Page = () => {
         , formState: {errors}} = useForm({
 
         defaultValues:{
-            status : '1',
-            user_id : '1'
+            status : '1'
         },
         mode:'all',
         resolver: yupResolver(postValidation)
@@ -34,6 +37,16 @@ const Page = () => {
 
     const image = watch("image");
 
+    const getUser = async () => {
+        let token =  getCookie()
+        let response = await getMe(token);
+        setUser(response.data.data)
+
+    }
+
+    useEffect(() => {
+        getUser()
+    },[])
     useEffect(() => {
 
         if (image && image.length > 0) {
@@ -45,18 +58,18 @@ const Page = () => {
     }, [image]);
 
    async function  onSubmit(data) {
-       console.log(data.image)
-        setLoading(true);
 
+        setLoading(true);
         const formData = new FormData();
         formData.append("title", data.title);
         formData.append("summery", data.summery);
         formData.append("body", data.body);
         formData.append("status", data.status);
-        formData.append("user_id", data.user_id);
+        formData.append("user_id",user && user.id);
         formData.append("category_id", data.category_id);
         formData.append("image", data.image[0]);
-        let res = await addPost(formData);
+        let res = await addPost(formData,getCookie());
+       console.log(res)
        if (res.status === 200)
        {
            toast.success('پست با موفقیت ساخته شد',config200)
@@ -72,7 +85,7 @@ const Page = () => {
     }
 
     const  getPostCategory = async () => {
-        let response =  await getCategory()
+        let response =  await getCategory(getCookie())
         setPostCategory(response.data.data)
     }
 

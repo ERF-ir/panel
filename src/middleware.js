@@ -16,6 +16,6 @@ export function middleware(request) {
 }
 
 export const config = {
-    matcher: ['/home', '/content/:path*','/store/:path*'],
+    matcher: ['/home', '/content/:path*','/store/:path*','/users/:path*','/store/:path*','/manage-roles/:path*'],
 
 }

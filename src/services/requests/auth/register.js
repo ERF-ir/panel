@@ -12,6 +12,9 @@ export  async function registerRequest (data) {
 export  async function loginRequest (data) {
 
  return  await axiosRequest.post('auth/login',data,{
+  headers: {
+   // اینجا هدر Authorization رو نمی‌فرستیم اصلاً
+  }
 
  }).catch(error =>  error.response.data.data)
 }
