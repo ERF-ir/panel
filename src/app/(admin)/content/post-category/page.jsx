@@ -34,15 +34,17 @@ const page = () => {
 
     const handleDelete = async (id)=>{
         setLoading(prevState =>({...prevState,[id]: true}));
+
         let response = await deleteCategory(id,getCookie())
-        console.log(response.data)
+
         if(response.status === 200){
             setLoading(false);
             toast.success('دسته بندی با موفقیت حذف شد',config200)
             setLoading(prevState =>({...prevState,id: false}));
-        }
 
-        fetchCategories()
+        }
+        fetchCategories(getCookie())
+
     }
 
     const changeStatus = async (id)=>{
