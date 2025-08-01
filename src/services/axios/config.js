@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export  const  axiosRequest = axios.create({
-    baseURL: 'http://proerf.ir/api/',
+    baseURL: 'https://proerf.ir/api/',
     headers: {'Content-Type': 'application/json'},
 });
