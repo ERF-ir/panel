@@ -33,12 +33,13 @@ const SidBar = () => {
     return (
 
         <>
+
             <aside  className={'col-span-2 vh overflow-auto  bg-white font-iran '} >
 
                 <div className={'flex justify-start mt-5'}>
                     <img src={logo.src} width={'185'} alt="logo" />
                 </div>
-
+                {Roles.length > 0 &&
                 <ul className={'p-5 '}>
                     <li className={'flex bg-[#635bff] drop-shadow-[0_10px_20px_rgba(99,91,255,0.4)]  px-2 py-3 rounded-xl cursor-pointer my-3 '}>
 
@@ -235,8 +236,9 @@ const SidBar = () => {
 
 
                 </ul>
-
+                }
             </aside>
+
         </>
 
     );

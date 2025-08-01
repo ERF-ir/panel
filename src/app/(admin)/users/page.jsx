@@ -114,7 +114,7 @@ const Page =  () => {
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>
                                     <td><img src={user.image}  className={'rounded-full size-[55px]'}/></td>
-                                    <td>{user.roles}</td>
+                                    <td>{user.roles ? user.roles : <span className={'text-purple-500'}>نقشی ندارد</span>}</td>
                                     <td>
                                         {new Intl.DateTimeFormat('fa-IR',  {year: 'numeric',month: 'short',day: 'numeric'}).
                                         format(new Date(user.created_at.replace(/-/g,',')))}

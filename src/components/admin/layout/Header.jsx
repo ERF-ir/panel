@@ -14,7 +14,7 @@ function Header() {
 
 
 
-      let [user, setUser] = useState()
+      let [user, setUser] = useState([])
 
     const router = useRouter();
 
@@ -77,7 +77,7 @@ function Header() {
                         <div className={'ms-4'}>
                             <h1 className={'text-gray-600 text-sm'}> سلام {user && user.name}</h1>
                             <p className={' mt-3 text-[0.8rem]'}>
-                                <span className={'p-1 rounded-full px-2 bg-orange-100 text-orange-700'}>{user && user.roles}</span>
+                                <span className={'p-1 rounded-full px-2 bg-orange-100 text-orange-700'}>{user.roles ? user.roles : 'نقشی ندارید'}</span>
                                 <span className={'ms-3 p-1 text-gray-700 bg-gray-100 text-[0.8rem] px-2 rounded-full'}>{newText}</span>
                                 <span onClick={handleDelete} className={'p-1.5 rounded-lg px-3 mr-4 border ' +
                                     'border-red-400 hover:bg-red-400 cursor-pointer text-red-400 transition-all hover:text-white'}>خروج</span>
