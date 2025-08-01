@@ -2,7 +2,7 @@ import logo from "../../../../public/logo.png";
 import {motion} from "motion/react";
 import React, {useEffect, useState} from "react";
 import Link from "next/link";
-import {getMe} from "@/services/requests/auth/register";
+
 import {getCookie} from "@/helpers";
 import {listRoles, permissionsUser} from "@/services/requests/roles/role";
 
